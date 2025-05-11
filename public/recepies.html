@@ -9,9 +9,51 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Buy List" />
     <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/static/css/style.css">
     <title>Recepies | Buy List</title>
   </head>
-<body>
-  <div>Recepies</div>
-</body>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>Buy List</h1>
+        <nav class="nav">
+          <div class="mobile-nav-btn">
+            <button>
+              <img src="/static/icons/bars-solid.svg" alt="App Icon" width="16" height="16">
+            </button>
+          </div>
+          <ul>
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="/buy-list">Buy List</a>
+            </li>
+            <li>
+              <a href="/recepies">Recepies</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <main class="main main-subpage">
+        <h2>Search for recepies</h2>
+        <div class="search-bar">
+          <input type="text" placeholder="Search for recepies..." id="searchRecepie">
+        </div>
+        <div>
+          <p id="no-recepies" style="display: none;">
+            Typed keyword does not match any recepies.
+          </p>
+          <p id="no-keyword">
+            Type a keyword in the search bar above to find recepies.
+          </p>
+        </div>
+      </main>
+      <footer class="footer">
+        <p>&copy; <span id="copyYear"></span> Buy List. All rights reserved.</p>
+      </footer>
+    </div>
+  
+    <script src="/static/js/script.js"></script>
+  </body>
 </html>
