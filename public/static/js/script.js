@@ -1,5 +1,9 @@
 import _ from "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.min.js";
 
+if("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+}
+
 document.getElementById("copyYear").textContent = new Date().getFullYear();
 
 const searchRecepie = document.getElementById("search-recepie");
@@ -54,12 +58,12 @@ const loadBuyList = () => {
     items.forEach(item => {
       const itemHTML = `
         <div class="list-item">
-          <p>${item.name}</p>
+          <p ${item.isChecked ? 'style="text-decoration: line-through;"' : ""} class="item-name" data-id="${item.id}">${item.name}</p>
           <div>
-            <button>
+            <button class="check-btn" data-id="${item.id}">
               <img src="/static/icons/check-solid.svg" alt="Check" width="16" height="16">
             </button>
-            <button>
+            <button class="delete-btn" data-id="${item.id}">
               <img src="/static/icons/trash-solid.svg" alt="Delete" width="16" height="16">
             </button>
           </div>
@@ -67,12 +71,71 @@ const loadBuyList = () => {
       `;
       buyList.innerHTML += itemHTML;
     });
+
+    const checkButtons = document.querySelectorAll(".check-btn");
+    checkButtons.forEach(button => {
+      button.addEventListener("click", (e) => {
+        const itemName = button.parentElement.parentElement.querySelector(".item-name").innerHTML;
+        const transaction = db.transaction("buyList", "readwrite");
+        const store = transaction.objectStore("buyList");
+        const request = store.index("name").get(itemName);
+
+        request.onsuccess = () => {
+          const item = request.result;
+          if (item) {
+            item.isChecked = !item.isChecked;
+            const updateRequest = store.put(item);
+            updateRequest.onsuccess = () => {
+              loadBuyList();
+            };
+          }
+        };
+      });
+    });
+
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+    deleteButtons.forEach(button => {
+      button.addEventListener("click", (e) => {
+        const itemName = button.parentElement.parentElement.querySelector(".item-name").innerHTML;
+        const transaction = db.transaction("buyList", "readwrite");
+        const store = transaction.objectStore("buyList");
+        const getRequest = store.index("name").get(itemName);
+        getRequest.onsuccess = () => {
+          const deleteRequest = store.delete(getRequest.result.id);
+          deleteRequest.onsuccess = () => {
+            loadBuyList();
+          };
+        };
+      });
+    });
+
+    const itemNames = document.querySelectorAll(".item-name");
+    itemNames.forEach(item => {
+      item.addEventListener("click", (e) => {
+        const itemId = e.target.dataset.id;
+        const transaction = db.transaction("buyList", "readwrite");
+        const store = transaction.objectStore("buyList");
+        const request = store.get(itemId);
+
+        request.onsuccess = () => {
+          const item = request.result;
+          if (item) {
+            item.isChecked = !item.isChecked;
+            const updateRequest = store.put(item);
+            updateRequest.onsuccess = () => {
+              loadBuyList();
+            };
+          }
+        };
+      });
+    });
   };
 
   getAll.onerror = (event) => {
     console.error("Error loading buy list:", event.target.error);
   };
 };
+
 
 const addToBuyList = (items) => {
   if (!db || !Array.isArray(items)) {
@@ -93,7 +156,6 @@ const addToBuyList = (items) => {
       }
     };
   });
-  console.log(transaction.oncomplete);
 
   transaction.oncomplete = () => {
     loadBuyList();

@@ -46,23 +46,24 @@ self.addEventListener("fetch", (event) => {
 
   if (request.url.includes("/api/")) {
     event.respondWith(
-      fetch(request)
-        .then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-          return response;
-        }).catch(() => caches.match(request))
+      fetch(request).then((response) => response)
+        .catch(() => {
+          return new Response(null, {
+            status: 503,
+            statusText: "Service Unavailable",
+          })
+        })
     );
   } else {
     event.respondWith(
-      caches.match(request).then((cachedResponse) => {
-        if (cachedResponse)
-          return cachedResponse;
-
-        return fetch(request).then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-          return response;
+      caches.open(CACHE_NAME).then((cache) => {
+        return cache.match(request).then((cachedResponse) => {
+          const networkFetch = fetch(request).then((networkResponse) => {
+            if (networkResponse.ok)
+              cache.put(request, networkResponse.clone());
+            return networkResponse;
+          }).catch(() => cachedResponse);
+          return cachedResponse || networkFetch;
         });
       })
     );
