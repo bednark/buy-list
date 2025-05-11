@@ -16,5 +16,10 @@
   "start_url": "/",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "display": "standalone",
+  "dir": "auto",
+  "lang": "en",
+  "orientation": "portrait",
+  "id": "buy-list",
+  "description": "PWA application to get recepies from api and write ingrediements to the list"
 }
