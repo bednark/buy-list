@@ -22,7 +22,7 @@ request.onupgradeneeded = (event) => {
     autoIncrement: true,
   });
 
-  objectStore.createIndex("name", "name", { unique: true });
+  objectStore.createIndex("name", "name", { unique: false });
   objectStore.createIndex("isChecked", "isChecked", { unique: false });
 };
 
@@ -84,12 +84,20 @@ const addToBuyList = (items) => {
   const store = transaction.objectStore("buyList");
 
   items.forEach(item => {
-    const request = store.add(item);
-    request.onerror = (e) => console.error("Add error:", item, e.target.error);
+    const getRequest = store.index("name").get(item.name);
+
+    getRequest.onsuccess = () => {
+      if(!getRequest.result) {
+        const request = store.add(item);
+        request.onerror = (e) => console.error("Add error:", item, e.target.error);
+      }
+    };
   });
+  console.log(transaction.oncomplete);
 
   transaction.oncomplete = () => {
     loadBuyList();
+    alert("Buy list updated successfully");
   };
 };
 
@@ -152,11 +160,24 @@ const handleSearchRecepies = async (event) => {
             <p>Ingredients: ${recepie.ingredients.join(", ")}</p>
           </div>
           <div class="recepie-actions">
-          <button>
-            <img src="/static/icons/cart-plus-solid.svg" alt="Add to buy list" width="16" height="16">
-          </button>
+            <button class="add-to-buy-list-btn">
+              <img src="/static/icons/cart-plus-solid.svg" alt="Add to buy list" width="16" height="16">
+            </button>
           </div>
         `;
+
+        const button = recepieItem.querySelector(".add-to-buy-list-btn");
+        button.addEventListener("click", () => {
+          const ingredientsToBuyList = [];
+
+          recepie.ingredients.forEach(ingredient => {
+            const item = { name: ingredient, isChecked: false };
+            ingredientsToBuyList.push(item);
+          });
+
+          addToBuyList(ingredientsToBuyList);
+        });
+
         recepiesList.appendChild(recepieItem);
       });
     } else {
