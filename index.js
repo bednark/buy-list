@@ -9,6 +9,7 @@ const _dirname = path.dirname(_filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
 app.use(express.static(path.join(_dirname, "public")));
 app.use("/", router)
 

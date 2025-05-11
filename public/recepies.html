@@ -38,15 +38,19 @@
       <main class="main main-subpage">
         <h2>Search for recepies</h2>
         <div class="search-bar">
-          <input type="text" placeholder="Search for recepies..." id="searchRecepie">
+          <input type="text" placeholder="Search for recepies..." id="search-recepie">
         </div>
-        <div>
+        <div class="search-result">
           <p id="no-recepies" style="display: none;">
             Typed keyword does not match any recepies.
           </p>
           <p id="no-keyword">
             Type a keyword in the search bar above to find recepies.
           </p>
+          <p id="offline-message" style="display: none;">
+            You are offline. Please check your internet connection.
+          </p>
+          <div id="recepies-list" class="recepies-list"></div>
         </div>
       </main>
       <footer class="footer">
@@ -54,6 +58,6 @@
       </footer>
     </div>
   
-    <script src="/static/js/script.js"></script>
+    <script type="module" src="/static/js/script.js"></script>
   </body>
 </html>

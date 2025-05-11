@@ -2,8 +2,8 @@ const CACHE_NAME = "buy-list-v1";
 
 const urlsToCache = [
   "/",
-  "recepies",
-  "buy-list",
+  "/recepies",
+  "/buy-list",
   "/index.html",
   "/buylist.html",
   "/recepies.html",
@@ -14,6 +14,8 @@ const urlsToCache = [
   "/static/icons/icon-512x512.png",
   "/static/icons/apple-icon.png",
   "/static/icons/bars-solid.svg",
+  "/static/icons/check-solid.svg",
+  "/static/icons/trash-solid.svg",
   "/static/icons/favicon-96x96.png",
   "/static/icons/favicon.svg",
   "/manifest.json"
@@ -21,10 +23,7 @@ const urlsToCache = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log("Opened cache");
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
   );
 });
 
@@ -33,10 +32,8 @@ self.addEventListener("activate", (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log("Deleting old cache:", cacheName);
+          if (cacheName !== CACHE_NAME)
             return caches.delete(cacheName);
-          }
         })
       );
     })
@@ -44,17 +41,29 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, clone);
+  const request = event.request;
+
+  if (request.url.includes("/api/")) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          return response;
+        }).catch(() => caches.match(request))
+    );
+  } else {
+    event.respondWith(
+      caches.match(request).then((cachedResponse) => {
+        if (cachedResponse)
+          return cachedResponse;
+
+        return fetch(request).then((response) => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          return response;
         });
-        return response;
       })
-      .catch(() => {
-        return caches.match(event.request);
-      })
-  );
+    );
+  }
 });

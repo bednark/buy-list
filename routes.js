@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import { getRecepies } from "./controllers/recepies.js";
 
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_filename);
@@ -17,5 +18,7 @@ router.get("/buy-list", (req, res) => {
 router.get("/recepies", (req, res) => {
   res.sendFile(path.join(_dirname, "public", "recepies.html"));
 });
+
+router.post("/api/recepies", getRecepies);
 
 export default router;
