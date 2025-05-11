@@ -151,6 +151,11 @@ const handleSearchRecepies = async (event) => {
             <h3>${recepie.name}</h3>
             <p>Ingredients: ${recepie.ingredients.join(", ")}</p>
           </div>
+          <div class="recepie-actions">
+          <button>
+            <img src="/static/icons/cart-plus-solid.svg" alt="Add to buy list" width="16" height="16">
+          </button>
+          </div>
         `;
         recepiesList.appendChild(recepieItem);
       });

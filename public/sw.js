@@ -16,6 +16,7 @@ const urlsToCache = [
   "/static/icons/bars-solid.svg",
   "/static/icons/check-solid.svg",
   "/static/icons/trash-solid.svg",
+  "/static/icons/cart-plus-solid.svg",
   "/static/icons/favicon-96x96.png",
   "/static/icons/favicon.svg",
   "/manifest.json"
