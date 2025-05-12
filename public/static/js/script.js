@@ -14,6 +14,7 @@ const noKeyword = document.getElementById("no-keyword");
 const offlineMessage = document.getElementById("offline-message");
 const recepiesList = document.getElementById("recepies-list");
 const buyList = document.getElementById("buy-list");
+const navBtn = document.getElementById("mobile-nav-btn");
 
 const request = indexedDB.open("buyListDb", 1);
 let db;
@@ -272,3 +273,14 @@ if (addToList) {
     newListItem.value = "";
   });
 }
+
+navBtn.addEventListener("click", () => {
+  const nav = document.getElementById("mobile-nav");
+  if (nav.style.display === "block") {
+    nav.style.display = "none";
+    navBtn.querySelector("img").src = "/static/icons/bars-solid.svg";
+  } else {
+    nav.style.display = "block";
+    navBtn.querySelector("img").src = "/static/icons/xmark-solid.svg";
+  }
+});

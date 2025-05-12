@@ -44,13 +44,14 @@ html, body {
   list-style: none;
 }
 
-.nav ul li a {
+.nav ul li a, .mobile-nav ul li a {
   color: white;
   text-decoration: none;
   font-size: 18px;
 }
 
-.nav ul li a:hover {
+.nav ul li a:hover, .mobile-nav ul li a:hover {
+  color: var(--secondary-color);
   text-decoration: underline;
 }
 
@@ -244,6 +245,28 @@ html, body {
   text-align: right;
 }
 
+.mobile-nav {
+  background-color: var(--primary-color);
+  position: fixed;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 50px);
+  display: none;
+}
+
+.mobile-nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  list-style: none;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding-bottom: 300px;
+}
+
 @media (min-width: 768px) {
   .nav ul {
     display: flex;
@@ -278,5 +301,9 @@ html, body {
 
   .recepie-details {
     width: 700px;
+  }
+
+  .mobile-nav {
+    display: none !important;
   }
 }
