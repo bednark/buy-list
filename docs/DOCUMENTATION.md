@@ -158,11 +158,11 @@ Wdrożenie środowiska:
   - Dodajemy zmienną środowiskowym taką samą jak w środowisku developerskim
 - Klikamy "Create Web Service"
 
-![Hosting 1](https://raw.githubusercontent.com/bednark/buy-list/dev/docs/screenshots/hosting-1.png)
+![Hosting 1](https://raw.githubusercontent.com/bednark/buy-list/master/docs/screenshots/hosting-1.png)
 
-![Hosting 2](https://raw.githubusercontent.com/bednark/buy-list/dev/docs/screenshots/hosting-2.png)
+![Hosting 2](https://raw.githubusercontent.com/bednark/buy-list/master/docs/screenshots/hosting-2.png)
 
-![Hosting 3](https://raw.githubusercontent.com/bednark/buy-list/dev/docs/screenshots/hosting-3.png)
+![Hosting 3](https://raw.githubusercontent.com/bednark/buy-list/master/docs/screenshots/hosting-3.png)
 
 ## Napotkane problemy
 
@@ -179,8 +179,8 @@ Link do aplikacji: https://buy-list.onrender.com
 
 Zrzuty ekranu aplikacji:
 
-![Aplikacja 1](https://raw.githubusercontent.com/bednark/buy-list/dev/docs/screenshots/aplikacja-1.png)
+![Aplikacja 1](https://raw.githubusercontent.com/bednark/buy-list/master/docs/screenshots/aplikacja-1.png)
 
-![Aplikacja 2](https://raw.githubusercontent.com/bednark/buy-list/dev/docs/screenshots/aplikacja-2.png)
+![Aplikacja 2](https://raw.githubusercontent.com/bednark/buy-list/master/docs/screenshots/aplikacja-2.png)
 
-![Aplikacja 3](https://raw.githubusercontent.com/bednark/buy-list/dev/docs/screenshots/aplikacja-3.png)
+![Aplikacja 3](https://raw.githubusercontent.com/bednark/buy-list/master/docs/screenshots/aplikacja-3.png)
